@@ -9,13 +9,11 @@
 
   let props = {
     component: Start,
-    loggedIn: $user ? true : false
   };
 
   router("/", () => {
     props = {
       component: Start,
-      loggedIn: $user ? true : false
     };
   });
 
@@ -37,7 +35,10 @@
 <style>
   .container {
     margin: 0 auto;
+    position: sticky;
+    top: 0;
     width: 80vw;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,6 +47,7 @@
 </style>
 
 <Nav />
+
 <div class="container">
   <svelte:component this={props.component} {...props} />
 </div>
