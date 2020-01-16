@@ -1,20 +1,25 @@
 <script>
+  import { user } from "../store/user";
+
   let name;
   let password;
 
-  let nameError;
-  let passError;
+  let noName;
+  let noPass;
+
+  let error;
 
   async function login() {
-    nameError = false;
-    passError = false;
+    error = null;
+    noName = false;
+    noPass = false;
     if (!name) {
-      nameError = true;
+      noName = true;
     }
     if (!password) {
-      passError = true;
+      noPass = true;
     }
-    if (nameError || passError) {
+    if (noName || noPass) {
       return;
     }
     let response = await fetch("http://localhost:8080/api/v1/auth/login", {
@@ -27,6 +32,11 @@
     });
     let json = await response.json();
     console.log(json);
+    if (json.error) {
+      error = json.error;
+      return;
+    }
+    user.update(n => json.token)
     // set $user store as token
     // handle errors from server
     name = "";
@@ -69,8 +79,8 @@
     padding: 0.5rem 1rem;
     background: lightblue;
   }
-  input.nameError,
-  input.passError {
+  input.noName,
+  input.noPass {
     background: lightpink;
   }
   .errors {
@@ -86,7 +96,7 @@
     <label for="name">
       Username
       <input
-        class:nameError
+        class:noName
         id="name"
         type="text"
         bind:value={name}
@@ -94,17 +104,14 @@
     </label>
     <label for="password">
       Password
-      <input
-        class:passError
-        id="password"
-        type="password"
-        bind:value={password} />
+      <input class:noPass id="password" type="password" bind:value={password} />
     </label>
     <input type="submit" />
   </fieldset>
   <p class="errors">
-    {#if nameError}Please enter your name.{/if}
+    {#if error}{error}{/if}
+    {#if noName}Please enter your name.{/if}
     <br />
-    {#if passError}Please enter your password.{/if}
+    {#if noPass}Please enter your password.{/if}
   </p>
 </form>

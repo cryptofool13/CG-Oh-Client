@@ -5,15 +5,16 @@
   import Start from "./pages/start.svelte";
   import Login from "./pages/login.svelte";
   import NotFound from "./pages/notFound.svelte";
+  import Menu from "./pages/menu.svelte";
   import { user } from "./store/user";
 
   let props = {
-    component: Start,
+    component: Start
   };
 
   router("/", () => {
     props = {
-      component: Start,
+      component: Start
     };
   });
 
@@ -22,7 +23,12 @@
       component: Login
     };
   });
-  router()
+
+  router('/menu', () => {
+    props = {
+      component: Menu
+    }
+  });
 
   router("*", () => {
     props = {
@@ -42,7 +48,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
   }
 </style>
 

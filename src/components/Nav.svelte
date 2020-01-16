@@ -1,5 +1,9 @@
 <script>
   import { user } from "../store/user";
+
+  function logout() {
+    user.update(n => null)
+  }
 </script>
 
 <style>
@@ -28,7 +32,7 @@
   </li>
   <li id="auth">
     {#if $user}
-      <a href="/">Log out</a>
+      <a on:click={logout} href="/">Log out</a>
     {:else}
       <a href="/login">Log in</a>
     {/if}
