@@ -5,7 +5,7 @@
 
   onMount(() => {
     if (!$user) {
-      window.location = "http://localhost:3000";
+      window.location = "http://192.168.1.7:3000";
     }
   });
 </script>
