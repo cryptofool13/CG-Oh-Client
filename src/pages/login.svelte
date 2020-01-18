@@ -8,7 +8,7 @@
   let noPass;
 
   let error;
-
+  
   async function login() {
     error = null;
     noName = false;
@@ -22,25 +22,31 @@
     if (noName || noPass) {
       return;
     }
-    let response = await fetch("http://localhost:8080/api/v1/auth/login", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "post",
-      body: JSON.stringify({ name, password })
-    });
-    let json = await response.json();
-    console.log(json);
-    if (json.error) {
-      error = json.error;
-      return;
+    try {
+      let response = await fetch("http://192.168.1.7:8080/api/v1/auth/login", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({ name, password })
+      });
+      let json = await response.json();
+      if (json.error) {
+        error = json.error;
+        return;
+      }
+      user.update(n => json.token);
+      localStorage.setItem("token", json.token);
+      // set $user store as token
+      // handle errors from server
+      name = "";
+      password = "";
+
+      history.back();
+    } catch (e) {
+      console.log(e);
     }
-    user.update(n => json.token)
-    // set $user store as token
-    // handle errors from server
-    name = "";
-    password = "";
   }
 </script>
 
@@ -67,7 +73,7 @@
 
   input[type="text"],
   input[type="password"] {
-    width: 24ch;
+    /* width: 24ch; */
     margin-left: 1rem;
     border-radius: 0.5rem;
     background: #ddd;
@@ -109,6 +115,7 @@
     <input type="submit" />
   </fieldset>
   <p class="errors">
+
     {#if error}{error}{/if}
     {#if noName}Please enter your name.{/if}
     <br />

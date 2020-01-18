@@ -1,13 +1,31 @@
 <script>
+  import { beforeUpdate } from "svelte";
+
   import { user } from "../store/user";
 
+  let loggedIn;
+
+  beforeUpdate(() => {
+    if (!$user) {
+      let storage = localStorage.getItem("token");
+      if (!storage) {
+        loggedIn = false;
+      } else {
+        loggedIn = true;
+        user.update(n => storage)
+      }
+    } else {
+      loggedIn = true;
+    }
+  });
+
   function logout() {
-    user.update(n => null)
+    user.update(n => null);
+    localStorage.removeItem("token");
   }
 </script>
 
 <style>
-
   ul {
     background: radial-gradient(at top center, #ddd, #ddddff);
     display: flex;
@@ -31,7 +49,7 @@
     <a href="/">Exit</a>
   </li>
   <li id="auth">
-    {#if $user}
+    {#if loggedIn}
       <a on:click={logout} href="/">Log out</a>
     {:else}
       <a href="/login">Log in</a>
