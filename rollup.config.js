@@ -2,12 +2,11 @@ import svelte from "rollup-plugin-svelte"
 import resolve from "@rollup/plugin-node-resolve"
 import commonjs from "@rollup/plugin-commonjs"
 import livereload from "rollup-plugin-livereload"
-import replace from "@rollup/plugin-replace"
 import { terser } from "rollup-plugin-terser"
 import {config} from 'dotenv'
+
 config()
 const production = !process.env.ROLLUP_WATCH
-const secret = process.env.TOKEN_SECRET
 
 export default {
 	input: "src/main.js",
@@ -18,13 +17,7 @@ export default {
 		file: "public/build/bundle.js"
 	},
 	plugins: [
-		replace({
-			process: JSON.stringify({
-				env: {
-					secret: secret
-				}
-			})
-		}),
+
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,

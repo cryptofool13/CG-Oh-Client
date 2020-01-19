@@ -18,7 +18,7 @@
 <style>
 
 </style>
-
+<Scanner/>
 {#if item}
   {#await item}
     loading

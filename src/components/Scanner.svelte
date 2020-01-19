@@ -1,14 +1,7 @@
-
-
 <script>
-  import { beforeUpdate } from "svelte";
+import Quagga from 'quagga'
 
-  let Quagga
-
-  beforeUpdate(async () => {
-    // Quagga = await import('quagga')
-    console.log(Quagga)
-  });
+ 
 </script>
 
 <style>
