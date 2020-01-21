@@ -1,10 +1,31 @@
+<script context="module">
+  let scans={};
+
+  export function upcPicker() {
+    if(!scans) {
+      throw Error('No detected barcode.')
+    }
+    let upcs = Object.keys(scans);
+    if (upcs.length == 0) {
+      return upcs[0];
+    }
+    let upc = upcs[0];
+    upcs.forEach(code => {
+      if (scans[code] > scans[upc]) {
+        upc = code;
+      }
+    });
+    return upc;
+  }
+</script>
 <script>
   import { onMount } from "svelte";
   import Quagga from "quagga";
 
-  let scans = {}
 
-onMount(() => {
+  
+
+  onMount(() => {
     Quagga.init(
       {
         inputStream: {
@@ -21,15 +42,15 @@ onMount(() => {
       },
       e => {
         if (e) console.log(e);
-        // Quagga.start();
+        Quagga.start();
       }
     );
     Quagga.onDetected(data => {
-      let code = data.codeResult.code
-      if(scans[code]) {
-        scans[code]+=1
-      }else{
-      scans[code] = 1
+      let code = data.codeResult.code;
+      if (scans.hasOwnProperty(code)) {
+        scans[code] += 1;
+      } else {
+        scans[code] = 1;
       }
       console.log(scans);
     });
@@ -39,12 +60,14 @@ onMount(() => {
     };
   });
 
-  function scan() {
-    Quagga.start()
-    setTimeout(() => {
-      Quagga.pause()
-    }, 1500)
-  }
+  // function scan() {
+  //   scans = {}
+  //   Quagga.start();
+  //   setTimeout(() => {
+  //     Quagga.pause();
+  //   }, 1500);
+
+  // }
 </script>
 
 <style>
@@ -54,6 +77,5 @@ onMount(() => {
   }
 </style>
 
-<button on:click={scan}>Scan</button>
 
 <div id="interactive" class="viewport" />

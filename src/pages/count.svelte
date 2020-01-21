@@ -1,6 +1,6 @@
 <script>
   import ItemDetail from "../components/ItemDetails.svelte";
-  import Scanner from "../components/Scanner.svelte";
+  import Scanner, { upcPicker } from "../components/Scanner.svelte";
 
   import { getItem, isValidUpc } from "../services/scanner";
   import { user } from "../store/user";
@@ -10,6 +10,7 @@
   let errors;
 
   function handleScan() {
+    upc = upcPicker()
     try {
       if (!upc) {
         throw Error("Scan a barcode or enter a UPC.");
@@ -35,9 +36,7 @@
   }
 </style>
 
-<div class="scanner">
-  <Scanner />
-</div>
+
 
 {#if item}
   {#await item}
@@ -52,3 +51,6 @@
 </label>
 <p bind:this={errors} class="errors" />
 <button on:error={e => console.log(e)} on:click={handleScan}>scan</button>
+<div class="scanner">
+  <Scanner />
+</div>
