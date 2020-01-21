@@ -1,14 +1,11 @@
 <script>
   export let scannedItem;
-  let { item, on_hand, shelf_cap, case_sz, price } = scannedItem;
+  export let action;
+
+  let { item, on_hand, case_sz, price, shelf_cap, error } = scannedItem;
 </script>
 
 <style>
-  .scanner {
-    width: 150px;
-    height: 150px;
-    background: #ddd;
-  }
   .details {
     width: 50%;
   }
@@ -18,6 +15,9 @@
   }
 </style>
 
+{#if error}
+  {error}
+{:else}
 <div class="details">
   <p>
     <span>Item:</span>
@@ -27,17 +27,32 @@
     <span>Case size:</span>
     {case_sz}
   </p>
+  {#if action == 'count'}
+    <p>
+      <span>Shelf capacity:</span>
+      {shelf_cap}
+    </p>
+  {:else}
+    <p>
+      <span>On hand:</span>
+      {on_hand}
+    </p>
+  {/if}
   <p>
     <span>Price:</span>
     {price.toFixed(2)}
   </p>
-  <p>
-    <span>Shelf capacity:</span>
-    {shelf_cap}
-  </p>
 </div>
 
-<label for="on_hand">
-  On hand:
-  <input id="on_hand" type="number" bind:value={on_hand} />
-</label>
+{#if action == 'count'}
+  <label for="on_hand">
+    On hand:
+    <input id="on_hand" type="number" bind:value={on_hand} />
+  </label>
+{:else}
+  <label for="shelf_cap">
+    Shelf Cap:
+    <input type="number" id="shelf_cap" bind:value={shelf_cap} />
+  </label>
+  {/if}
+{/if}

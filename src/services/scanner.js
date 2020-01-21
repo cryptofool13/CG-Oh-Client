@@ -30,15 +30,22 @@ export function isValidUpc(upc) {
 }
 
 export async function getItem(upc, token) {
-  let response = await fetch(`http://192.168.1.7:8080/api/v1/inventory/${upc}`, {
-    method: 'get',
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      'authorization': token
-    },
-  })
-  let json = await response.json()
+	try {
+		let response = await fetch(
+			`http://192.168.1.7:8080/api/v1/inventory/${upc}`,
+			{
+				method: "get",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+					authorization: token
+				}
+			}
+		)
+		let json = await response.json()
 
-  return json
+		return json
+	} catch (error) {
+		throw Error(error)
+	}
 }
