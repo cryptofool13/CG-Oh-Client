@@ -7,6 +7,7 @@
   import NotFound from "./pages/notFound.svelte";
   import Menu from "./pages/menu.svelte";
   import Count from './pages/count.svelte';
+  import Display from './pages/display.svelte';
   import { user } from "./store/user";
 
   let props = {
@@ -34,6 +35,12 @@
   router('/count', () => {
     props = {
       component: Count
+    }
+  })
+
+  router('/display', () => {
+    props = {
+      component: Display
     }
   })
 
