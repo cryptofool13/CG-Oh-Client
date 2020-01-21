@@ -4,27 +4,51 @@
 
   import { getItem, isValidUpc } from "../services/scanner";
   import { user } from "../store/user";
-  let upc = "121212121212";
+
+  let upc = "";
   let item;
+  let errors;
 
   function handleScan() {
-    if (!isValidUpc(upc)) {
-      throw Error(`invalid UPC: ${upc}`);
+    try {
+      if (!upc) {
+        throw Error("Scan a barcode or enter a UPC.");
+      }
+      if (!isValidUpc(upc)) {
+        throw Error(`Invalid UPC: ${upc}`);
+      }
+      item = getItem(upc, $user);
+    } catch (err) {
+      errors.innerText = err.message;
     }
-    item = getItem(upc, $user);
   }
 </script>
 
 <style>
+  .errors {
+    padding: 1rem;
+    color: red;
+  }
 
+  .scanner {
+    width: 200px;
+  }
 </style>
-<Scanner/>
+
+<div class="scanner">
+  <Scanner />
+</div>
+
 {#if item}
   {#await item}
     loading
   {:then data}
-
     <ItemDetail scannedItem={data} />
   {/await}
 {/if}
-<button on:click={handleScan}>scan</button>
+<label for="upc">
+  Upc:
+  <input type="text" id="upc" bind:value={upc} />
+</label>
+<p bind:this={errors} class="errors" />
+<button on:error={e => console.log(e)} on:click={handleScan}>scan</button>

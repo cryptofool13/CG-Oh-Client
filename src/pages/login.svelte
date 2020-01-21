@@ -8,7 +8,7 @@
   let noPass;
 
   let error;
-  
+
   async function login() {
     error = null;
     noName = false;

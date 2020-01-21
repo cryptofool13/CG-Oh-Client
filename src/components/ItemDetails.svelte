@@ -1,6 +1,6 @@
 <script>
   export let scannedItem;
-  let { upc, item, on_hand, shelf_cap, case_sz, price } = scannedItem;
+  let { item, on_hand, shelf_cap, case_sz, price } = scannedItem;
 </script>
 
 <style>
@@ -36,10 +36,7 @@
     {shelf_cap}
   </p>
 </div>
-<label for="upc">
-  Upc:
-  <input type="text" id="upc" bind:value={upc} />
-</label>
+
 <label for="on_hand">
   On hand:
   <input id="on_hand" type="number" bind:value={on_hand} />
