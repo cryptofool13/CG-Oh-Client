@@ -28,6 +28,8 @@
 <style>
   ul {
     background: radial-gradient(at top center, #ddd, #ddddff);
+    position: relative;
+    z-index: 5;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -36,6 +38,7 @@
     height: 10vh;
     top: 0;
     margin: 0 auto;
+    margin-bottom: 2rem;
     width: 80vw;
     border-radius: 0 0 1rem 1rem;
   }
