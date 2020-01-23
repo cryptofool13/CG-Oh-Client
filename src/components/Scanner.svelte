@@ -1,9 +1,9 @@
 <script context="module">
-  let scans={};
+  let scans = {};
 
   export function upcPicker() {
-    if(!scans) {
-      throw Error('No detected barcode.')
+    if (!scans) {
+      throw Error("No detected barcode.");
     }
     let upcs = Object.keys(scans);
     if (upcs.length == 0) {
@@ -18,12 +18,10 @@
     return upc;
   }
 </script>
+
 <script>
   import { onMount } from "svelte";
   import Quagga from "quagga";
-
-
-  
 
   onMount(() => {
     Quagga.init(
@@ -59,23 +57,15 @@
       Quagga.stop();
     };
   });
-
-  // function scan() {
-  //   scans = {}
-  //   Quagga.start();
-  //   setTimeout(() => {
-  //     Quagga.pause();
-  //   }, 1500);
-
-  // }
 </script>
 
 <style>
   #interactive {
-    width: 200px;
-    height: 200px;
+    position: relative;
+    top: 0;
+    left: calc(50% - 200px);
+    margin: 4rem auto;
   }
 </style>
-
 
 <div id="interactive" class="viewport" />

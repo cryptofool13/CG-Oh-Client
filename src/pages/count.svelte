@@ -2,12 +2,14 @@
   import ItemDetail from "../components/ItemDetails.svelte";
   import Scanner, { upcPicker } from "../components/Scanner.svelte";
 
-  import { getItem, isValidUpc } from "../services/scanner";
+  import { getItem, isValidUpc, updateItem } from "../services/item";
   import { user } from "../store/user";
 
   let upc = "";
   let item;
   let errors;
+
+  function handleUpdate() {}
 
   function handleScan() {
     upc = upc ? upc : upcPicker();
@@ -19,7 +21,6 @@
         throw Error(`Invalid UPC: ${upc}`);
       }
       item = getItem(upc, $user);
-      // console.log(item)
       item
         .then(res => {
           if (res.error) {
@@ -41,11 +42,11 @@
     padding: 1rem;
     color: red;
   }
-
-  .scanner {
-    width: 200px;
-  }
 </style>
+
+<div class="scanner">
+  <Scanner />
+</div>
 
 {#if item}
   {#await item}
@@ -62,10 +63,6 @@
   <input type="text" id="upc" bind:value={upc} />
 </label>
 
+<button on:click={handleScan}>scan</button>
+
 <p bind:this={errors} class="errors" />
-
-<button on:error={e => console.log(e)} on:click={handleScan}>scan</button>
-
-<div class="scanner">
-  <Scanner />
-</div>
